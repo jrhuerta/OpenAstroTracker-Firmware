@@ -266,6 +266,8 @@
     #include "boards/RAMPS/pins_RAMPS.hpp"
 #elif (BOARD == BOARD_ESP32_ESP32DEV)
     #include "boards/ESP32_ESP32DEV/pins_ESP32DEV.hpp"
+#elif (BOARD == BOARD_ESP32_FYSETCE4)
+    #include "boards/ESP32_FYSETCE4/pins_FYSETCE4.hpp"
 #elif (BOARD == BOARD_OAE_V1)
     #include "boards/ESP32_ESP32DEV/pins_OAE_V1.hpp"
 #elif (BOARD == BOARD_AVR_MKS_GEN_L_V1)

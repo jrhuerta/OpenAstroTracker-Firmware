@@ -81,7 +81,7 @@
     #else
         #error Defined an AZ driver, but no AZ stepper.
     #endif
-#elif defined(__AVR_ATmega2560__)
+#elif defined(ESP32) || defined(__AVR_ATmega2560__)
     // Azimuth configuration
     #if (AZ_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART)
         #ifndef AZ_DRIVER_ADDRESS
@@ -102,7 +102,7 @@
     #else
         #error Defined an ALT driver, but no ALT stepper.
     #endif
-#elif defined(__AVR_ATmega2560__)
+#elif defined(ESP32) || defined(__AVR_ATmega2560__)
     // Altitude configuration
     #if (ALT_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART)
         #ifndef ALT_DRIVER_ADDRESS
@@ -460,5 +460,22 @@
     #endif
     #ifndef DEC_LIMIT_DOWN
         #error "You must set DEC_LIMIT_DOWN to the number of degrees that your OAT can move downwards from the home position."
+    #endif
+#endif
+
+// FYSETC E4 board-specific validation
+#if (BOARD == BOARD_ESP32_FYSETCE4)
+    #if (RA_DRIVER_TYPE != DRIVER_TYPE_TMC2209_UART) || (DEC_DRIVER_TYPE != DRIVER_TYPE_TMC2209_UART)
+        #error "FYSETC E4 requires TMC2209_UART driver type for RA and DEC"
+    #endif
+    #if defined(AZ_STEPPER_TYPE) && (AZ_STEPPER_TYPE != STEPPER_TYPE_NONE)
+        #if (AZ_DRIVER_TYPE != DRIVER_TYPE_TMC2209_UART)
+            #error "FYSETC E4 requires TMC2209_UART driver type for AZ"
+        #endif
+    #endif
+    #if defined(ALT_STEPPER_TYPE) && (ALT_STEPPER_TYPE != STEPPER_TYPE_NONE)
+        #if (ALT_DRIVER_TYPE != DRIVER_TYPE_TMC2209_UART)
+            #error "FYSETC E4 requires TMC2209_UART driver type for ALT"
+        #endif
     #endif
 #endif

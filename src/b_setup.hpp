@@ -161,7 +161,11 @@ void setup()
     #if (INFO_DISPLAY_TYPE != INFO_DISPLAY_TYPE_NONE)
     int gpsLine = addConsoleText(F("Initialize GPS..."));
     #endif
+    #if defined(OAE) || (BOARD == BOARD_ESP32_FYSETCE4)
+    GPS_SERIAL_PORT.begin(GPS_BAUD_RATE, SERIAL_8N1, GPS_RX_PIN, GPS_TX_PIN);
+    #else
     GPS_SERIAL_PORT.begin(GPS_BAUD_RATE);
+    #endif
     #if (INFO_DISPLAY_TYPE != INFO_DISPLAY_TYPE_NONE)
     updateConsoleText(gpsLine, F("Initialize GPS... OK"));
     #endif
@@ -213,10 +217,10 @@ void setup()
     #endif
 
     #ifdef RA_SERIAL_PORT
-        #ifdef OAE
+        #if defined(OAE) || (BOARD == BOARD_ESP32_FYSETCE4)
     RA_SERIAL_PORT.begin(57600, SERIAL_8N1, RA_RX_PIN, RA_TX_PIN);
         #else
-    RA_SERIAL_PORT.begin(57600);   // Start HardwareSerial comms with driver
+    RA_SERIAL_PORT.begin(57600);  // Start HardwareSerial comms with driver
         #endif
     //
     #endif
@@ -246,7 +250,7 @@ void setup()
     pinMode(DEC_DIAG_PIN, INPUT);
     #endif
     #ifdef DEC_SERIAL_PORT
-        #ifdef OAE
+        #if defined(OAE) || (BOARD == BOARD_ESP32_FYSETCE4)
     DEC_SERIAL_PORT.begin(57600, SERIAL_8N1, DEC_RX_PIN, DEC_TX_PIN);
         #else
     DEC_SERIAL_PORT.begin(57600);  // Start HardwareSerial comms with driver
@@ -262,8 +266,10 @@ void setup()
     pinMode(AZ_EN_PIN, OUTPUT);
     digitalWrite(AZ_EN_PIN, HIGH);  // Logic HIGH to disable the driver initally
     #if AZ_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART
-    // include TMC2209 UART pins
+        // include TMC2209 UART pins
+        #ifdef AZ_DIAG_PIN
     pinMode(AZ_DIAG_PIN, INPUT);
+        #endif
         #ifdef AZ_SERIAL_PORT
     AZ_SERIAL_PORT.begin(57600);  // Start HardwareSerial comms with driver
         #endif
@@ -277,10 +283,16 @@ void setup()
     pinMode(ALT_EN_PIN, OUTPUT);
     digitalWrite(ALT_EN_PIN, HIGH);  // Logic HIGH to disable the driver initally
     #if ALT_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART
-    // include TMC2209 UART pins
+        // include TMC2209 UART pins
+        #ifdef ALT_DIAG_PIN
     pinMode(ALT_DIAG_PIN, INPUT);
+        #endif
         #ifdef ALT_SERIAL_PORT
+            #if defined(OAE) || (BOARD == BOARD_ESP32_FYSETCE4)
+    ALT_SERIAL_PORT.begin(57600, SERIAL_8N1, ALT_RX_PIN, ALT_TX_PIN);
+            #else
     ALT_SERIAL_PORT.begin(57600);  // Start HardwareSerial comms with driver
+            #endif
         #endif
     #endif
     updateConsoleText(altLine, F("Init ALT axis... OK"));
