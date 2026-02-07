@@ -89,8 +89,8 @@
             #error AZ driver address for DRIVER_TYPE_TMC2209_UART not specified.
         #endif
     #endif
-#elif defined(OAE)
-// Valid OAE configuration
+#elif defined(OAE) || (BOARD == BOARD_ESP32_CNC3)
+// Valid OAE or CNC3 configuration
 #else
     #error Configuration does not support AZ. Use at own risk.
 #endif
@@ -111,8 +111,8 @@
         #endif
     #endif
 
-#elif defined(OAE)
-// Valid
+#elif defined(OAE) || (BOARD == BOARD_ESP32_CNC3)
+// Valid OAE or CNC3 configuration
 
 #else
     #warning Configuration does not support ALT. Use at own risk.

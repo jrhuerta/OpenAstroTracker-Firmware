@@ -268,6 +268,8 @@
     #include "boards/ESP32_ESP32DEV/pins_ESP32DEV.hpp"
 #elif (BOARD == BOARD_OAE_V1)
     #include "boards/ESP32_ESP32DEV/pins_OAE_V1.hpp"
+#elif (BOARD == BOARD_ESP32_CNC3)
+    #include "boards/ESP32_CNC3/pins_CNC3.hpp"
 #elif (BOARD == BOARD_AVR_MKS_GEN_L_V1)
     #include "boards/AVR_MKS_GEN_L_V1/pins_MKS_GEN_L_V1.h"
 #elif (BOARD == BOARD_AVR_MKS_GEN_L_V2)
